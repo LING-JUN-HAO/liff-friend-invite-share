@@ -37,6 +37,7 @@ const handleShareMessage = async () => {
       }
     }
   ]);
+  liff.closeWindow();
 }
 
 onMounted(async () => {
