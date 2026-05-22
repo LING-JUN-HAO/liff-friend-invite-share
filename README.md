@@ -1,27 +1,23 @@
-## 專案介紹
+# LIFF Friend Invite Share
 
-本專案是為了配合 2025 年 iT 邦幫忙鐵人賽而建立的實作專案。在開發過程中，每日的學習進度和程式碼實作都會以不同的 Git 分支來管理，讓讀者可以搭配每日的技術文章一起跟著實際操作練習！
+這是一個 LIFF 範例專案。
 
-## 開發環境需求
+功能很單純：檢查 `shareTargetPicker` 是否可用，可用時分享一則帶有官方帳號加入連結的訊息；不支援時關閉 LIFF。
 
-- NodeJS v18.19.0
-- Npm v10.5.0
-
-## 環境安裝
+## 安裝
 
 ```bash
-$ pnpm install
+pnpm install
 ```
 
-## 專案執行
+## 開發
 
 ```bash
-# 啟動開發伺服器
-$ pnpm run start
+pnpm dev
+```
 
-# 打包專案
-$ pnpm run build
+## 建置
 
-# 啟動正式環境伺服器
-$ pnpm run preview
+```bash
+pnpm build
 ```
