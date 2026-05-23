@@ -23,7 +23,7 @@ const handleShareMessage = async () => {
   await liff.shareTargetPicker([
     {
       type: 'flex',
-      altText: '加入官方帳號',
+      altText: '溫醫師的端午護牙大挑戰',
       contents: {
         type: 'bubble',
         body: {
@@ -40,7 +40,7 @@ const handleShareMessage = async () => {
               margin: 'xxl',
               action: {
                 type: 'uri',
-                label: '加入官方帳號',
+                label: '溫醫師的端午護牙大挑戰',
                 uri: officialAccountUrl
               }
             }
