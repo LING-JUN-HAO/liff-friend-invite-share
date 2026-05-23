@@ -22,18 +22,30 @@ const handleShareMessage = async () => {
 
   await liff.shareTargetPicker([
     {
-      type: 'template',
+      type: 'flex',
       altText: '加入官方帳號',
-      template: {
-        type: 'buttons',
-        text: '點擊下方按鈕加入官方帳號好友',
-        actions: [
-          {
-            type: 'uri',
-            label: '加入好友',
-            uri: officialAccountUrl
-          }
-        ]
+      contents: {
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          paddingAll: 'none',
+          contents: [
+            {
+              type: 'image',
+              url: 'https://res.cloudinary.com/dj4rwmdiu/image/upload/v1779513494/%E8%AD%B7%E7%89%99-01_path7w.png',
+              size: 'full',
+              aspectMode: 'fit',
+              aspectRatio: '1040:768',
+              margin: 'xxl',
+              action: {
+                type: 'uri',
+                label: '加入官方帳號',
+                uri: officialAccountUrl
+              }
+            }
+          ]
+        }
       }
     }
   ]);
