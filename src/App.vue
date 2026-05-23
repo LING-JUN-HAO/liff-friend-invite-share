@@ -35,9 +35,7 @@ const handleShareMessage = async () => {
               type: 'image',
               url: 'https://res.cloudinary.com/dj4rwmdiu/image/upload/v1779513494/%E8%AD%B7%E7%89%99-01_path7w.png',
               size: 'full',
-              aspectMode: 'fit',
               aspectRatio: '1040:768',
-              margin: 'xxl',
               action: {
                 type: 'uri',
                 label: '溫醫師的端午護牙大挑戰',
