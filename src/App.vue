@@ -26,6 +26,7 @@ const handleShareMessage = async () => {
       altText: '溫醫師的端午護牙大挑戰',
       contents: {
         type: 'bubble',
+        size: "giga",
         body: {
           type: 'box',
           layout: 'vertical',
