@@ -2,12 +2,13 @@
 import { onMounted, ref } from "vue";
 import liff from "@line/liff";
 import Game from './views/Game.vue';
+import PoliticalWave from './views/PoliticalWave.vue';
 import { share } from './utils/share';
 
 const LIFF_ID = import.meta.env.VITE_LIFF_ID as string;
 const gameUrl = `https://liff.line.me/${LIFF_ID}#moongame`;
 
-type View = 'game' | 'not-in-line' | 'none';
+type View = 'game' | 'supportcard' | 'not-in-line' | 'none';
 const view = ref<View>('none');
 const debugInfo = ref('');
 
@@ -21,7 +22,8 @@ const handleUserLogin = () => {
 
 onMounted(async () => {
   if (import.meta.env.DEV) {
-    view.value = 'game';
+    const hash = window.location.hash;
+    view.value = hash === '#moongame' ? 'game' : 'supportcard';
     return;
   }
   try {
@@ -35,6 +37,8 @@ onMounted(async () => {
 
     if (hash === '#moongame') {
       view.value = 'game';
+    } else if (hash === '#supportcard') {
+      view.value = 'supportcard';
     } else if (hash === '#share/moonquiz') {
       await share('moonquiz');
       liff.closeWindow();
@@ -53,6 +57,7 @@ onMounted(async () => {
 
 <template>
   <Game v-if="view === 'game'" />
+  <PoliticalWave v-else-if="view === 'supportcard'" />
 
   <div v-else-if="view === 'not-in-line'" class="not-in-line">
     <div class="not-in-line__icon">💬</div>
