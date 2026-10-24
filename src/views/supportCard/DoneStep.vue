@@ -20,17 +20,35 @@ const buildFlexCard = () => {
 
   const nickname = props.nickname?.trim() || '政波成員';
 
-  const imageContents = props.avatarUrl?.startsWith('https://')
-    ? [{
-        type: 'image',
-        url: props.avatarUrl.trim(),
-        size: '72px',
-        aspectMode: 'cover',
-        aspectRatio: '1:1',
-        //style: 'circle',
-        align: 'center',
-      }]
-    : [];
+const imageContents = props.avatarUrl?.startsWith('https://')
+  ? [{
+      type: 'box',
+      layout: 'vertical',
+      width: '88px',
+      height: '88px',
+      cornerRadius: '999px',
+      backgroundColor: '#ffffff',
+      paddingAll: '4px',
+      contents: [
+        {
+          type: 'box',
+          layout: 'vertical',
+          width: '80px',
+          height: '80px',
+          cornerRadius: '999px',
+          contents: [
+            {
+              type: 'image',
+              url: props.avatarUrl.trim(),
+              size: '80px',
+              aspectMode: 'cover',
+              aspectRatio: '1:1',
+            },
+          ],
+        },
+      ],
+    }]
+  : [];
 
   const subLabelContents = props.cardSubLabel?.trim()
     ? [{
@@ -52,29 +70,22 @@ const buildFlexCard = () => {
       }]
     : [];
 
-  const buttonContents = liffUrl
-    ? [{
-        type: 'box',
-        layout: 'vertical',
-        backgroundColor: '#1d3461',
-        cornerRadius: '999px',
-        paddingAll: '12px',
-        margin: 'sm',
-        action: {
-          type: 'uri',
-          label: '成為政波，改變南投！',
-          uri: liffUrl,
-        },
-        contents: [{
-          type: 'text',
-          text: '成為政波，改變南投！',
-          color: '#ffffff',
-          weight: 'bold',
-          align: 'center',
-          size: 'sm',
-        }],
-      }]
-    : [];
+  const buttonContents = [{
+    type: 'box',
+    layout: 'vertical',
+    backgroundColor: '#1d3461',
+    cornerRadius: '999px',
+    paddingAll: '12px',
+    margin: 'sm',
+    contents: [{
+      type: 'text',
+      text: '成為政波，改變南投！',
+      color: '#ffffff',
+      weight: 'bold',
+      align: 'center',
+      size: 'sm',
+    }],
+  }];
 
   return {
     type: 'flex',
@@ -133,10 +144,9 @@ const buildInviteCard = () => {
     ? [{
         type: 'image',
         url: props.avatarUrl.trim(),
-        size: 'md',
+        size: '72px',
         aspectMode: 'cover',
         aspectRatio: '1:1',
-        style: 'circle',
         align: 'center',
       }]
     : [];
