@@ -20,17 +20,16 @@ const buildFlexCard = () => {
 
   const nickname = props.nickname?.trim() || '政波成員';
 
-  const imageContents = props.avatarUrl?.startsWith('https://')
-    ? [{
-        type: 'image',
-        url: props.avatarUrl.trim(),
-        size: '72px',
-        aspectMode: 'cover',
-        aspectRatio: '1:1',
-        style: 'circle',
-        align: 'center',
-      }]
-    : [];
+const imageContents = props.avatarUrl?.startsWith('https://')
+  ? [{
+      type: 'image',
+      url: props.avatarUrl.trim(),
+      size: '72px',
+      aspectMode: 'cover',
+      aspectRatio: '1:1',
+      align: 'center',
+    }]
+  : [];
 
   const subLabelContents = props.cardSubLabel?.trim()
     ? [{
@@ -87,7 +86,7 @@ const buildFlexCard = () => {
         paddingAll: '24px',
         alignItems: 'center',
         contents: [
-         // ...imageContents,
+          ...imageContents,
           {
             type: 'text',
             text: nickname,
