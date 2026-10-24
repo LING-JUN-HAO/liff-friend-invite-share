@@ -12,43 +12,36 @@ const props = defineProps<{
 }>();
 
 
-const buildFlexCard = () => {
-  const liffId = import.meta.env.VITE_LIFF_ID;
-  const liffUrl = liffId
-    ? `https://liff.line.me/${liffId}#supportcard`
-    : '';
+const buildAvatarBox = (url: string, outerSize: string, innerSize: string, padding: string) => ({
+  type: 'box',
+  layout: 'vertical',
+  width: outerSize,
+  height: outerSize,
+  cornerRadius: '999px',
+  backgroundColor: '#FFFFFF',
+  paddingAll: padding,
+  contents: [{
+    type: 'box',
+    layout: 'vertical',
+    width: innerSize,
+    height: innerSize,
+    cornerRadius: '999px',
+    contents: [{
+      type: 'image',
+      url: url.trim(),
+      size: innerSize,
+      aspectMode: 'cover',
+      aspectRatio: '1:1',
+    }],
+  }],
+});
 
+const buildFlexCard = () => {
   const nickname = props.nickname?.trim() || '政波成員';
 
-const imageContents = props.avatarUrl?.startsWith('https://')
-  ? [{
-      type: 'box',
-      layout: 'vertical',
-      width: '88px',
-      height: '88px',
-      cornerRadius: '999px',
-      backgroundColor: '#ffffff',
-      paddingAll: '4px',
-      contents: [
-        {
-          type: 'box',
-          layout: 'vertical',
-          width: '80px',
-          height: '80px',
-          cornerRadius: '999px',
-          contents: [
-            {
-              type: 'image',
-              url: props.avatarUrl.trim(),
-              size: '80px',
-              aspectMode: 'cover',
-              aspectRatio: '1:1',
-            },
-          ],
-        },
-      ],
-    }]
-  : [];
+  const imageContents = props.avatarUrl?.startsWith('https://')
+    ? [buildAvatarBox(props.avatarUrl, '88px', '80px', '4px')]
+    : [];
 
   const subLabelContents = props.cardSubLabel?.trim()
     ? [{
@@ -94,6 +87,7 @@ const imageContents = props.avatarUrl?.startsWith('https://')
       type: 'bubble',
       body: {
         type: 'box',
+        backgroundColor: '#ffffff',
         layout: 'vertical',
         paddingAll: '24px',
         alignItems: 'center',
@@ -138,62 +132,167 @@ const imageContents = props.avatarUrl?.startsWith('https://')
 const buildInviteCard = () => {
   const liffId = import.meta.env.VITE_LIFF_ID;
   const liffUrl = liffId ? `https://liff.line.me/${liffId}#supportcard` : '';
+
   const nickname = props.nickname?.trim() || '政波成員';
 
-  const imageContents = props.avatarUrl?.startsWith('https://')
-    ? [{
-        type: 'image',
-        url: props.avatarUrl.trim(),
-        size: '72px',
-        aspectMode: 'cover',
-        aspectRatio: '1:1',
-        align: 'center',
-      }]
-    : [];
+  const subLabel = props.cardSubLabel?.trim();
+  const locationLabel = props.locationLabel?.trim();
 
-  const locationContents = props.locationLabel?.trim()
-    ? [{ type: 'text', text: props.locationLabel.trim(), color: '#666666', size: 'sm', align: 'center' }]
-    : [];
+  const imageContents = props.avatarUrl?.startsWith('https://')
+    ? [buildAvatarBox(props.avatarUrl, '88px', '78px', '5px')]
+    : [{
+        type: 'box',
+        layout: 'vertical',
+        width: '88px',
+        height: '88px',
+        cornerRadius: '999px',
+        backgroundColor: '#FFFFFF',
+        paddingAll: '5px',
+        contents: [{
+          type: 'box',
+          layout: 'vertical',
+          width: '78px',
+          height: '78px',
+          backgroundColor: '#C5CFDB',
+          cornerRadius: '999px',
+          contents: [],
+        }],
+      }];
+
+  const memberInfo = [
+    subLabel,
+    locationLabel,
+  ].filter(Boolean).join('・');
 
   return {
     type: 'flex',
     altText: `${nickname} 邀請你加入政波！`,
     contents: {
       type: 'bubble',
+      size: 'mega',
+
+      // 上方邀請文字
       header: {
         type: 'box',
         layout: 'vertical',
         paddingAll: '16px',
+        backgroundColor: '#FFFFFF',
         contents: [
-          { type: 'text', text: '我成為政波了，你也一起來，讓希望擴散成波！', wrap: true, size: 'sm' },
-          { type: 'text', text: '#一般改變南投的力量', size: 'sm', color: '#1d3461', weight: 'bold', margin: 'sm' },
+          {
+            type: 'text',
+            text: '我成為政波了，你也一起來，讓希望擴散成波！',
+            size: 'sm',
+            color: '#333333',
+            wrap: true,
+          },
+          {
+            type: 'text',
+            text: '#一般改變南投的力量',
+            size: 'sm',
+            color: '#1d3461',
+            weight: 'bold',
+            margin: 'sm',
+            wrap: true,
+          },
         ],
       },
+
       body: {
         type: 'box',
         layout: 'vertical',
-        paddingAll: '16px',
-        alignItems: 'center',
+        paddingAll: 'none',
         contents: [
-          ...imageContents,
-          { type: 'text', text: nickname, weight: 'bold', size: 'lg', align: 'center', margin: 'md' },
-          { type: 'text', text: props.cardSubLabel?.trim() || '', color: '#666666', size: 'sm', align: 'center' },
-          ...locationContents,
-          { type: 'separator', margin: 'lg' },
-          { type: 'text', text: '我也加入政波', weight: 'bold', size: 'md', margin: 'lg' },
-          { type: 'text', text: '30 秒做出專屬於你的政波卡', size: 'sm', color: '#666666', margin: 'sm' },
+          // 淺藍色會員區塊
           {
-            type: 'button',
-            style: 'primary',
-            color: '#06C755',
-            margin: 'md',
-            action: { type: 'uri', label: '我也加入政波', uri: liffUrl },
+            type: 'box',
+            layout: 'vertical',
+            backgroundColor: '#DCE7F8',
+            paddingAll: '24px',
+            alignItems: 'center',
+            contents: [
+              ...imageContents,
+              {
+                type: 'text',
+                text: nickname,
+                weight: 'bold',
+                size: 'xl',
+                color: '#222222',
+                align: 'center',
+                margin: 'lg',
+                wrap: true,
+              },
+              ...(memberInfo
+                ? [{
+                    type: 'text',
+                    text: memberInfo,
+                    color: '#555555',
+                    size: 'sm',
+                    align: 'center',
+                    margin: 'sm',
+                    wrap: true,
+                  }]
+                : []),
+            ],
+          },
+
+          // 淺藍分隔線
+          {
+            type: 'separator',
+            color: '#B6CEEF',
+          },
+
+          // 下方邀請區塊
+          {
+            type: 'box',
+            layout: 'vertical',
+            backgroundColor: '#FFFFFF',
+            paddingAll: '20px',
+            contents: [
+              {
+                type: 'text',
+                text: '我也加入政波',
+                weight: 'bold',
+                size: 'lg',
+                color: '#222222',
+              },
+              {
+                type: 'text',
+                text: '30 秒做出專屬於你的政波卡',
+                size: 'sm',
+                color: '#666666',
+                margin: 'sm',
+                wrap: true,
+              },
+
+              {
+                type: 'box',
+                layout: 'vertical',
+                backgroundColor: '#06C755',
+                cornerRadius: '999px',
+                paddingAll: '14px',
+                margin: 'lg',
+                action: {
+                  type: 'uri',
+                  label: '我也加入政波',
+                  uri: liffUrl,
+                },
+                contents: [{
+                  type: 'text',
+                  text: '我也加入政波',
+                  color: '#FFFFFF',
+                  weight: 'bold',
+                  size: 'md',
+                  align: 'center',
+                }],
+              },
+            ],
           },
         ],
       },
     },
   };
 };
+
 
 const saveImage = async () => {
   const el = document.getElementById('card-capture');
