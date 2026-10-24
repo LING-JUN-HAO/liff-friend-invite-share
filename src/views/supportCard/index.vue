@@ -41,12 +41,6 @@ onMounted(async () => {
 
 const isNantou = computed(() => personType.value === 'nantou');
 
-const townshipLabel = computed(() =>
-  residenceType.value === 'local' ? '你住在南投哪個鄉鎮市？' : '你的老家在南投哪個鄉鎮市？',
-);
-const durationLabel = computed(() =>
-  residenceType.value === 'local' ? '你在南投生活多久了呢？' : '你離開南投多久了呢？',
-);
 
 const onPersonTypeChange = (val: 'nantou' | 'other') => {
   personType.value = val;
@@ -107,8 +101,6 @@ const confirmCard = () => { step.value = 'done'; };
       :duration="duration"
       :agreed-to-terms="agreedToTerms"
       :can-submit="canSubmitForm"
-      :township-label="townshipLabel"
-      :duration-label="durationLabel"
       @update:nickname="nickname = $event"
       @update:person-type="onPersonTypeChange"
       @update:residence-type="onResidenceTypeChange"

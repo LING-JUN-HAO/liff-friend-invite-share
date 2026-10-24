@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 type Duration = '1y' | '5y' | 'over10y' | 'forever'
 
 const DURATION_OPTIONS = [
@@ -23,9 +25,14 @@ const props = defineProps<{
   duration: Duration | '';
   agreedToTerms: boolean;
   canSubmit: boolean;
-  townshipLabel: string;
-  durationLabel: string;
 }>();
+
+const townshipLabel = computed(() =>
+  props.residenceType === 'local' ? '你住在南投哪個鄉鎮市？' : '你的老家在南投哪個鄉鎮市？',
+);
+const durationLabel = computed(() =>
+  props.residenceType === 'local' ? '你在南投生活多久了呢？' : '你離開南投多久了呢？',
+);
 
 const emit = defineEmits<{
   'update:nickname': [value: string];
@@ -87,12 +94,13 @@ const emit = defineEmits<{
       <!-- 外縣市民眾特殊提示 -->
       <div v-if="personType === 'other'" class="other-notice">
         <span class="other-notice__icon">✓</span>
-        <p>不是南投人也沒關係！你一樣也是改變南投的一份力量。</p>
+        <p>不是南投人也歡迎！</p>
+        <p>你的關心，也是改變南投的一股力量。</p>
       </div>
 
       <!-- 住在南投 / 駐外地（南投人限定） -->
       <div v-if="personType === 'nantou'" class="field">
-        <label class="field__label">你在哪裡？</label>
+        <label class="field__label">你現在人在哪裡？</label>
         <div class="toggle-group">
           <button
             class="toggle-btn"
@@ -192,13 +200,13 @@ const emit = defineEmits<{
   border-radius: 50%;
   background: #d5d9de;
 }
-.avatar-label { font-size: 14px; color: #555; }
+.avatar-label { font-size: 16px; color: #555; }
 
 /* 表單欄位 */
 .field { margin-bottom: 20px; }
 .field__label {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: #2b2b2b;
   margin-bottom: 10px;

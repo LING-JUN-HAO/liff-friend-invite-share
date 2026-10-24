@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import liff from '@line/liff';
 import CardDisplay from './CardDisplay.vue';
 import { shareOrDownload } from '../../utils/download';
@@ -36,8 +36,8 @@ const buildAvatarBox = (url: string, outerSize: string, innerSize: string, paddi
   }],
 });
 
-const buildFlexCard = () => {
-  const nickname = props.nickname?.trim() || '政波成員';
+const buildChatCard = () => {
+  const nickname = props.nickname?.trim();
 
   const imageContents = props.avatarUrl?.startsWith('https://')
     ? [buildAvatarBox(props.avatarUrl, '88px', '80px', '4px')]
@@ -82,7 +82,7 @@ const buildFlexCard = () => {
 
   return {
     type: 'flex',
-    altText: `${nickname} 加入了 #一般改變南投的力量`,
+    altText: `${nickname} 加入政波 #一股改變南投的力量`,
     contents: {
       type: 'bubble',
       body: {
@@ -106,7 +106,7 @@ const buildFlexCard = () => {
           ...locationContents,
           {
             type: 'text',
-            text: '#一般改變南投的力量',
+            text: '#一股改變南投的力量',
             color: '#1d3461',
             weight: 'bold',
             size: 'md',
@@ -132,10 +132,9 @@ const buildFlexCard = () => {
 const buildInviteCard = () => {
   const officialAccountUrl = 'https://line.me/R/ti/p/%40723znbzn';
 
-  const nickname = props.nickname?.trim() || '政波成員';
+  const nickname = props.nickname?.trim();
 
   const subLabel = props.cardSubLabel?.trim();
-  const locationLabel = props.locationLabel?.trim();
 
   const imageContents = props.avatarUrl?.startsWith('https://')
     ? [buildAvatarBox(props.avatarUrl, '88px', '78px', '5px')]
@@ -160,7 +159,6 @@ const buildInviteCard = () => {
 
   const memberInfo = [
     subLabel,
-    locationLabel,
   ].filter(Boolean).join('・');
 
   return {
@@ -266,6 +264,18 @@ const buildInviteCard = () => {
 };
 
 
+const cardImageUrl = ref('');
+
+onMounted(async () => {
+  const el = document.getElementById('card-capture');
+  if (!el) return;
+  try {
+    const { default: html2canvas } = await import('html2canvas');
+    const canvas = await html2canvas(el, { useCORS: true, scale: 2, backgroundColor: '#dde8f7' });
+    cardImageUrl.value = canvas.toDataURL('image/png');
+  } catch (e) { console.error('卡片預覽產生失敗', e); }
+});
+
 const saveImage = async () => {
   const el = document.getElementById('card-capture');
   if (!el) return;
@@ -289,18 +299,14 @@ const showToast = (msg: string) => {
 };
 
 const inviteFriends = async () => {
-  if (import.meta.env.DEV) { alert('DEV: 揪朋友一塊'); return; }
   try {
-    const nickname = props.nickname?.trim() || '政波成員';
     const inviteText = {
       type: 'text',
-      text: `我成為政波了，你也一起來，讓希望擴散成波！\n#一般改變南投的力量`,
+      text: `我成為政波了，你也一起來，讓希望擴散成波！\n#一股改變南投的力量`,
     };
     const result = await liff.shareTargetPicker([inviteText, buildInviteCard()] as any);
     if (result?.status === 'success') {
       showToast('已成功分享給朋友！');
-    } else {
-      showToast(`分享狀態：${result?.status ?? '未知'}`);
     }
   } catch (e) {
     showToast(`分享失敗：${String(e)}`);
@@ -309,7 +315,6 @@ const inviteFriends = async () => {
 };
 
 const sendToChat = async () => {
-  if (import.meta.env.DEV) { alert('DEV: 傳到聊天室'); return; }
   try {
     const context = liff.getContext();
     const chatTypes = ['utou', 'room', 'group', 'square_chat'];
@@ -317,7 +322,7 @@ const sendToChat = async () => {
       showToast('請從 LINE 聊天室開啟此頁面，才能傳送訊息');
       return;
     }
-    await liff.sendMessages([buildFlexCard() as any]);
+    await liff.sendMessages([buildChatCard() as any]);
     showToast('已傳送到聊天室！');
   } catch (e) {
     showToast(`傳送失敗：${String(e)}`);
@@ -328,14 +333,21 @@ const sendToChat = async () => {
 
 <template>
   <div class="stage">
-    <CardDisplay
-      :avatar-url="avatarUrl"
-      :nickname="nickname"
-      :card-sub-label="cardSubLabel"
-      :location-label="locationLabel"
-    />
+    <!-- 隱藏版供 html2canvas 捕捉 -->
+    <div class="card-offscreen">
+      <CardDisplay
+        :avatar-url="avatarUrl"
+        :nickname="nickname"
+        :card-sub-label="cardSubLabel"
+        :location-label="locationLabel"
+      />
+    </div>
 
-    <p class="hint-text">你的力量已匯聚成流<br/>傳出去，讓希望擴散成波 🌊<br/>長按圖片也可以直接儲存</p>
+    <!-- 長按可儲存的圖片預覽 -->
+    <img v-if="cardImageUrl" :src="cardImageUrl" class="card-preview" alt="政波卡" />
+    <div v-else class="card-placeholder" />
+
+    <p class="hint-text">你的力量已匯聚成流<br/>傳出去，讓希望擴散成波 🌊<br/>長按圖片可以直接儲存</p>
 
     <div class="btn-group">
       <button class="btn btn--green" @click="saveImage">儲存圖片</button>
@@ -356,6 +368,23 @@ const sendToChat = async () => {
   min-height: 100vh;
   padding: 20px 20px 32px;
   background: #fff;
+}
+.card-offscreen {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  pointer-events: none;
+}
+.card-preview {
+  width: 100%;
+  border-radius: 20px;
+  display: block;
+}
+.card-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  background: #dde8f7;
 }
 .hint-text {
   text-align: center;
