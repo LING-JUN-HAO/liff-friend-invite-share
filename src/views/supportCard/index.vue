@@ -72,7 +72,7 @@ const cardSubLabel = computed(() => {
   if (personType.value === 'nantou') {
     return `${township.value}・政波成員`;
   }
-  return '外縣市・政波成員';
+  return '我關心南投';
 });
 
 const locationLabel = computed(() => {

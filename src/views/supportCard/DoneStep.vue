@@ -24,7 +24,7 @@ const buildFlexCard = () => {
     ? [{
         type: 'image',
         url: props.avatarUrl.trim(),
-        size: '72px',
+        size: 'md',
         aspectMode: 'cover',
         aspectRatio: '1:1',
         style: 'circle',
@@ -133,7 +133,7 @@ const buildInviteCard = () => {
     ? [{
         type: 'image',
         url: props.avatarUrl.trim(),
-        size: '72px',
+        size: 'md',
         aspectMode: 'cover',
         aspectRatio: '1:1',
         style: 'circle',
