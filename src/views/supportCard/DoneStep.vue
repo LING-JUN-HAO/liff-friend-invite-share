@@ -167,14 +167,15 @@ const sendToChat = async () => {
 .toast {
   position: fixed;
   bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 16px;
+  right: 16px;
   background: rgba(0,0,0,.75);
   color: #fff;
   font-size: 14px;
-  padding: 10px 20px;
-  border-radius: 999px;
-  white-space: nowrap;
+  padding: 10px 16px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
   pointer-events: none;
 }
 .toast-enter-active, .toast-leave-active { transition: opacity .3s; }
