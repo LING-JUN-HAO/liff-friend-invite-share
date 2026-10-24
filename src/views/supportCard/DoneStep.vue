@@ -24,7 +24,7 @@ const buildFlexCard = () => {
     ? [{
         type: 'image',
         url: props.avatarUrl.trim(),
-        size: 'md',
+        size: '72px',
         aspectMode: 'cover',
         aspectRatio: '1:1',
         //style: 'circle',
