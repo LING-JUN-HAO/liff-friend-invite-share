@@ -11,17 +11,74 @@ const props = defineProps<{
   locationLabel: string;
 }>();
 
+
 const buildFlexCard = () => {
-  const liffUrl = `https://liff.line.me/${import.meta.env.VITE_LIFF_ID}#supportcard`;
-  const imageContents = props.avatarUrl
-    ? [{ type: 'image', url: props.avatarUrl, size: '72px', aspectMode: 'cover', aspectRatio: '1:1', style: 'circle', align: 'center' }]
+  const liffId = import.meta.env.VITE_LIFF_ID;
+  const liffUrl = liffId
+    ? `https://liff.line.me/${liffId}#supportcard`
+    : '';
+
+  const nickname = props.nickname?.trim() || '政波成員';
+
+  const imageContents = props.avatarUrl?.startsWith('https://')
+    ? [{
+        type: 'image',
+        url: props.avatarUrl.trim(),
+        size: '72px',
+        aspectMode: 'cover',
+        aspectRatio: '1:1',
+        style: 'circle',
+        align: 'center',
+      }]
     : [];
-  const locationContents = props.locationLabel
-    ? [{ type: 'text', text: props.locationLabel, color: '#666666', size: 'sm', align: 'center' }]
+
+  const subLabelContents = props.cardSubLabel?.trim()
+    ? [{
+        type: 'text',
+        text: props.cardSubLabel.trim(),
+        color: '#666666',
+        size: 'sm',
+        align: 'center',
+      }]
     : [];
+
+  const locationContents = props.locationLabel?.trim()
+    ? [{
+        type: 'text',
+        text: props.locationLabel.trim(),
+        color: '#666666',
+        size: 'sm',
+        align: 'center',
+      }]
+    : [];
+
+  const buttonContents = liffUrl
+    ? [{
+        type: 'box',
+        layout: 'vertical',
+        backgroundColor: '#1d3461',
+        cornerRadius: '999px',
+        paddingAll: '12px',
+        margin: 'sm',
+        action: {
+          type: 'uri',
+          label: '成為政波，改變南投！',
+          uri: liffUrl,
+        },
+        contents: [{
+          type: 'text',
+          text: '成為政波，改變南投！',
+          color: '#ffffff',
+          weight: 'bold',
+          align: 'center',
+          size: 'sm',
+        }],
+      }]
+    : [];
+
   return {
     type: 'flex',
-    altText: `${props.nickname} 加入了 #一般改變南投的力量`,
+    altText: `${nickname} 加入了 #一般改變南投的力量`,
     contents: {
       type: 'bubble',
       body: {
@@ -31,31 +88,41 @@ const buildFlexCard = () => {
         alignItems: 'center',
         contents: [
           ...imageContents,
-          { type: 'text', text: props.nickname || '政波成員', weight: 'bold', size: 'xl', align: 'center', margin: 'md' },
-          { type: 'text', text: props.cardSubLabel, color: '#666666', size: 'sm', align: 'center' },
-          ...locationContents,
-          { type: 'text', text: '#一般改變南投的力量', color: '#1d3461', weight: 'bold', size: 'md', align: 'center', margin: 'lg' },
           {
-            type: 'box',
-            layout: 'vertical',
-            backgroundColor: '#1d3461',
-            cornerRadius: '999px',
-            paddingTop: '10px',
-            paddingBottom: '10px',
-            paddingStart: '24px',
-            paddingEnd: '24px',
-            margin: 'sm',
-            action: { type: 'uri', label: '成為政波，改變南投！', uri: liffUrl },
-            contents: [
-              { type: 'text', text: '成為政波，改變南投！', color: '#ffffff', weight: 'bold', align: 'center', size: 'sm' },
-            ],
+            type: 'text',
+            text: nickname,
+            weight: 'bold',
+            size: 'xl',
+            align: 'center',
+            margin: 'md',
+            wrap: true,
           },
-          { type: 'text', text: '南投縣長候選人　温世政', color: '#aaaaaa', size: 'xs', align: 'center', margin: 'sm' },
+          ...subLabelContents,
+          ...locationContents,
+          {
+            type: 'text',
+            text: '#一般改變南投的力量',
+            color: '#1d3461',
+            weight: 'bold',
+            size: 'md',
+            align: 'center',
+            margin: 'lg',
+          },
+          ...buttonContents,
+          {
+            type: 'text',
+            text: '南投縣長候選人　温世政',
+            color: '#aaaaaa',
+            size: 'xs',
+            align: 'center',
+            margin: 'sm',
+          },
         ],
       },
     },
   };
 };
+
 
 const saveImage = async () => {
   const el = document.getElementById('card-capture');
