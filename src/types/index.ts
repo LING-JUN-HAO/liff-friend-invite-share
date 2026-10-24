@@ -1,5 +1,6 @@
 import type { Liff } from "@line/liff";
 
+
 export type UserEnvironment = {
   os: ReturnType<Liff["getOS"]>;
   appLanguage: ReturnType<Liff["getAppLanguage"]>;

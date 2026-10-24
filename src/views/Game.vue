@@ -2,6 +2,7 @@
 import { computed, reactive, ref } from 'vue';
 import liff from '@line/liff';
 import { share } from '../utils/share';
+import { shareOrDownload } from '../utils/download';
 
 /**
  * 中秋尋兔賀卡 — LIFF 遊戲（螢幕②～⑥）
@@ -113,18 +114,7 @@ const submit = () => {
 const download = async () => {
   const res = await fetch(CARD_IMG);
   const blob = await res.blob();
-  const file = new File([blob], '中秋賀卡.png', { type: 'image/png' });
-  if (navigator.canShare?.({ files: [file] })) {
-    await navigator.share({ files: [file] });
-  } else {
-    // fallback：不支援 share API 的環境（桌機等）直接下載
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = '中秋賀卡.png';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  await shareOrDownload(blob, '中秋賀卡.png');
 };
 </script>
 
