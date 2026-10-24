@@ -87,7 +87,7 @@ const buildFlexCard = () => {
         paddingAll: '24px',
         alignItems: 'center',
         contents: [
-          ...imageContents,
+         // ...imageContents,
           {
             type: 'text',
             text: nickname,
