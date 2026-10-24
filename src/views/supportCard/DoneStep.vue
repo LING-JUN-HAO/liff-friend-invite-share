@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import liff from '@line/liff';
 import CardDisplay from './CardDisplay.vue';
 import { shareOrDownload } from '../../utils/download';
@@ -57,13 +57,6 @@ const buildFlexCard = () => {
   };
 };
 
-onMounted(async () => {
-  if (import.meta.env.DEV) return;
-  try {
-    await liff.sendMessages([buildFlexCard() as any]);
-  } catch {}
-});
-
 const saveImage = async () => {
   const el = document.getElementById('card-capture');
   if (!el) return;
@@ -104,6 +97,12 @@ const inviteFriends = async () => {
 const sendToChat = async () => {
   if (import.meta.env.DEV) { alert('DEV: 傳到聊天室'); return; }
   try {
+    const context = liff.getContext();
+    const chatTypes = ['utou', 'room', 'group', 'square_chat'];
+    if (!context || !chatTypes.includes(context.type)) {
+      showToast('請從 LINE 聊天室開啟此頁面，才能傳送訊息');
+      return;
+    }
     await liff.sendMessages([buildFlexCard() as any]);
     showToast('已傳送到聊天室！');
   } catch (e) {
