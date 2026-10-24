@@ -14,7 +14,7 @@ const props = defineProps<{
 const buildFlexCard = () => {
   const liffUrl = `https://liff.line.me/${import.meta.env.VITE_LIFF_ID}#supportcard`;
   const imageContents = props.avatarUrl
-    ? [{ type: 'image', url: props.avatarUrl, size: 'md', aspectMode: 'cover', aspectRatio: '1:1', style: 'circle', align: 'center' }]
+    ? [{ type: 'image', url: props.avatarUrl, size: '72px', aspectMode: 'cover', aspectRatio: '1:1', style: 'circle', align: 'center' }]
     : [];
   const locationContents = props.locationLabel
     ? [{ type: 'text', text: props.locationLabel, color: '#666666', size: 'sm', align: 'center' }]
@@ -28,6 +28,7 @@ const buildFlexCard = () => {
         type: 'box',
         layout: 'vertical',
         paddingAll: '24px',
+        alignItems: 'center',
         contents: [
           ...imageContents,
           { type: 'text', text: props.nickname || '政波成員', weight: 'bold', size: 'xl', align: 'center', margin: 'md' },
@@ -35,11 +36,19 @@ const buildFlexCard = () => {
           ...locationContents,
           { type: 'text', text: '#一般改變南投的力量', color: '#1d3461', weight: 'bold', size: 'md', align: 'center', margin: 'lg' },
           {
-            type: 'button',
-            style: 'primary',
-            color: '#1d3461',
+            type: 'box',
+            layout: 'vertical',
+            backgroundColor: '#1d3461',
+            cornerRadius: '999px',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+            paddingStart: '24px',
+            paddingEnd: '24px',
             margin: 'sm',
             action: { type: 'uri', label: '成為政波，改變南投！', uri: liffUrl },
+            contents: [
+              { type: 'text', text: '成為政波，改變南投！', color: '#ffffff', weight: 'bold', align: 'center', size: 'sm' },
+            ],
           },
           { type: 'text', text: '南投縣長候選人　温世政', color: '#aaaaaa', size: 'xs', align: 'center', margin: 'sm' },
         ],
