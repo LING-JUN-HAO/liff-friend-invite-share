@@ -14,7 +14,21 @@ const props = defineProps<{
 const buildFlexCard = () => {
   const liffUrl = `https://liff.line.me/${import.meta.env.VITE_LIFF_ID}#supportcard`;
   const imageContents = props.avatarUrl
-    ? [{ type: 'image', url: props.avatarUrl, size: '72px', aspectMode: 'cover', aspectRatio: '1:1', style: 'circle', align: 'center' }]
+    ? [{
+        type: 'box',
+        layout: 'vertical',
+        width: '72px',
+        height: '72px',
+        cornerRadius: '36px',
+        alignSelf: 'center',
+        contents: [{
+          type: 'image',
+          url: props.avatarUrl,
+          size: 'full',
+          aspectMode: 'cover',
+          aspectRatio: '1:1',
+        }],
+      }]
     : [];
   const locationContents = props.locationLabel
     ? [{ type: 'text', text: props.locationLabel, color: '#666666', size: 'sm', align: 'center' }]
