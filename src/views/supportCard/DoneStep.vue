@@ -170,33 +170,6 @@ const buildInviteCard = () => {
     contents: {
       type: 'bubble',
       size: 'mega',
-
-      // 上方邀請文字
-      header: {
-        type: 'box',
-        layout: 'vertical',
-        paddingAll: '16px',
-        backgroundColor: '#FFFFFF',
-        contents: [
-          {
-            type: 'text',
-            text: '我成為政波了，你也一起來，讓希望擴散成波！',
-            size: 'sm',
-            color: '#333333',
-            wrap: true,
-          },
-          {
-            type: 'text',
-            text: '#一般改變南投的力量',
-            size: 'sm',
-            color: '#1d3461',
-            weight: 'bold',
-            margin: 'sm',
-            wrap: true,
-          },
-        ],
-      },
-
       body: {
         type: 'box',
         layout: 'vertical',
@@ -319,7 +292,12 @@ const showToast = (msg: string) => {
 const inviteFriends = async () => {
   if (import.meta.env.DEV) { alert('DEV: 揪朋友一塊'); return; }
   try {
-    const result = await liff.shareTargetPicker([buildInviteCard() as any]);
+    const nickname = props.nickname?.trim() || '政波成員';
+    const inviteText = {
+      type: 'text',
+      text: `我成為政波了，你也一起來，讓希望擴散成波！\n#一般改變南投的力量`,
+    };
+    const result = await liff.shareTargetPicker([inviteText, buildInviteCard()] as any);
     if (result?.status === 'success') {
       showToast('已成功分享給朋友！');
     } else {
