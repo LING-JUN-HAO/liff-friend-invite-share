@@ -11,10 +11,10 @@ defineProps<{
   <div class="card" id="card-capture">
     <img v-if="avatarUrl" :src="avatarUrl" class="card__avatar" crossorigin="anonymous" />
     <div v-else class="card__avatar card__avatar--placeholder"></div>
-    <p class="card__name">{{ nickname || '政波成員' }}</p>
+    <p class="card__name">{{ nickname }}</p>
     <p class="card__sub">{{ cardSubLabel }}</p>
     <p v-if="locationLabel" class="card__location">{{ locationLabel }}</p>
-    <p class="card__hashtag">#一般改變南投的力量</p>
+    <p class="card__hashtag">#一股改變南投的力量</p>
     <div class="card__cta">成為政波，改變南投！</div>
     <p class="card__candidate">南投縣長候選人　温世政</p>
   </div>

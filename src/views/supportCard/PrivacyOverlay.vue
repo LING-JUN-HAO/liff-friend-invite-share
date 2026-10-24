@@ -13,15 +13,15 @@ defineEmits<{ close: [] }>();
       </div>
       <div class="privacy-section">
         <p class="privacy-label">用在哪裡？</p>
-        <p class="privacy-text">只用在你的手機上，製作政波卡。</p>
+        <p class="privacy-text">只用來在你的手機上製作政波卡。</p>
       </div>
       <div class="privacy-section">
         <p class="privacy-label">會儲存嗎？</p>
-        <p class="privacy-text">頭貼、鄉鎮市和年數，只會用來在你的手機上產生政波卡。本活動不會另外儲存，也不會儲存給第三方。</p>
+        <p class="privacy-text">你填的暱稱、鄉鎮市和年數，只會用來在你的手機產生政波卡，本活動不會另外儲存，也不會提供給第三方。</p>
       </div>
       <div class="privacy-section">
         <p class="privacy-label">分享圖卡</p>
-        <p class="privacy-text">是否分享給朋友由你決定。圖片傳送後無法主動收回。</p>
+        <p class="privacy-text">是否分享給朋友由你決定。圖片傳出後無法收回。</p>
       </div>
       <div class="privacy-section">
         <p class="privacy-label">加入好友</p>
