@@ -94,8 +94,10 @@ const emit = defineEmits<{
       <!-- 外縣市民眾特殊提示 -->
       <div v-if="personType === 'other'" class="other-notice">
         <span class="other-notice__icon">✓</span>
-        <p>不是南投人也歡迎！</p>
-        <p>你的關心，也是改變南投的一股力量。</p>
+        <div>
+          <p>不是南投人也歡迎！</p>
+          <p>你的關心，也是改變南投的一股力量。</p>
+        </div>
       </div>
 
       <!-- 住在南投 / 駐外地（南投人限定） -->
@@ -294,7 +296,8 @@ const emit = defineEmits<{
   justify-content: center;
   flex: 0 0 24px;
 }
-.other-notice p { margin: 0; font-size: 14px; color: #1a7f3a; line-height: 1.6; }
+.other-notice p { margin: 0 0 4px; font-size: 14px; color: #1a7f3a; line-height: 1.6; }
+.other-notice p:last-child { margin-bottom: 0; }
 
 /* 年資選擇 */
 .duration-group {
