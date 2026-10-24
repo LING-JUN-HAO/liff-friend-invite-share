@@ -27,7 +27,7 @@ const buildFlexCard = () => {
         size: 'md',
         aspectMode: 'cover',
         aspectRatio: '1:1',
-        style: 'circle',
+        //style: 'circle',
         align: 'center',
       }]
     : [];
