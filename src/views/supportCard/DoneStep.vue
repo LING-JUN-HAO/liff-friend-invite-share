@@ -20,16 +20,17 @@ const buildFlexCard = () => {
 
   const nickname = props.nickname?.trim() || '政波成員';
 
-const imageContents = props.avatarUrl?.startsWith('https://')
-  ? [{
-      type: 'image',
-      url: props.avatarUrl.trim(),
-      size: '72px',
-      aspectMode: 'cover',
-      aspectRatio: '1:1',
-      align: 'center',
-    }]
-  : [];
+  const imageContents = props.avatarUrl?.startsWith('https://')
+    ? [{
+        type: 'image',
+        url: props.avatarUrl.trim(),
+        size: '72px',
+        aspectMode: 'cover',
+        aspectRatio: '1:1',
+        style: 'circle',
+        align: 'center',
+      }]
+    : [];
 
   const subLabelContents = props.cardSubLabel?.trim()
     ? [{
@@ -123,6 +124,67 @@ const imageContents = props.avatarUrl?.startsWith('https://')
 };
 
 
+const buildInviteCard = () => {
+  const liffId = import.meta.env.VITE_LIFF_ID;
+  const liffUrl = liffId ? `https://liff.line.me/${liffId}#supportcard` : '';
+  const nickname = props.nickname?.trim() || '政波成員';
+
+  const imageContents = props.avatarUrl?.startsWith('https://')
+    ? [{
+        type: 'image',
+        url: props.avatarUrl.trim(),
+        size: '72px',
+        aspectMode: 'cover',
+        aspectRatio: '1:1',
+        style: 'circle',
+        align: 'center',
+      }]
+    : [];
+
+  const locationContents = props.locationLabel?.trim()
+    ? [{ type: 'text', text: props.locationLabel.trim(), color: '#666666', size: 'sm', align: 'center' }]
+    : [];
+
+  return {
+    type: 'flex',
+    altText: `${nickname} 邀請你加入政波！`,
+    contents: {
+      type: 'bubble',
+      header: {
+        type: 'box',
+        layout: 'vertical',
+        paddingAll: '16px',
+        contents: [
+          { type: 'text', text: '我成為政波了，你也一起來，讓希望擴散成波！', wrap: true, size: 'sm' },
+          { type: 'text', text: '#一般改變南投的力量', size: 'sm', color: '#1d3461', weight: 'bold', margin: 'sm' },
+        ],
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        paddingAll: '16px',
+        alignItems: 'center',
+        contents: [
+          ...imageContents,
+          { type: 'text', text: nickname, weight: 'bold', size: 'lg', align: 'center', margin: 'md' },
+          { type: 'text', text: props.cardSubLabel?.trim() || '', color: '#666666', size: 'sm', align: 'center' },
+          ...locationContents,
+          { type: 'separator', margin: 'lg' },
+          { type: 'text', text: '我也加入政波', weight: 'bold', size: 'md', margin: 'lg' },
+          { type: 'text', text: '30 秒做出專屬於你的政波卡', size: 'sm', color: '#666666', margin: 'sm' },
+          {
+            type: 'button',
+            style: 'primary',
+            color: '#06C755',
+            margin: 'md',
+            action: { type: 'uri', label: '我也加入政波', uri: liffUrl },
+          },
+        ],
+      },
+    },
+  };
+};
+
 const saveImage = async () => {
   const el = document.getElementById('card-capture');
   if (!el) return;
@@ -148,7 +210,7 @@ const showToast = (msg: string) => {
 const inviteFriends = async () => {
   if (import.meta.env.DEV) { alert('DEV: 揪朋友一塊'); return; }
   try {
-    const result = await liff.shareTargetPicker([buildFlexCard() as any]);
+    const result = await liff.shareTargetPicker([buildInviteCard() as any]);
     if (result?.status === 'success') {
       showToast('已成功分享給朋友！');
     } else {
