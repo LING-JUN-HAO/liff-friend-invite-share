@@ -226,6 +226,7 @@ const emit = defineEmits<{
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 16px;
+  color: #2b2b2b;
   background: #fff;
   outline: none;
   appearance: none;

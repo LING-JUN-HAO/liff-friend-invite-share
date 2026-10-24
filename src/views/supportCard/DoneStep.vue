@@ -90,8 +90,15 @@ const inviteFriends = async () => {
   if (import.meta.env.DEV) { alert('DEV: 揪朋友一塊'); return; }
   try {
     const result = await liff.shareTargetPicker([buildFlexCard() as any]);
-    if (result?.status === 'success') showToast('已成功分享給朋友！');
-  } catch (e) { console.error(e); }
+    if (result?.status === 'success') {
+      showToast('已成功分享給朋友！');
+    } else {
+      showToast(`分享狀態：${result?.status ?? '未知'}`);
+    }
+  } catch (e) {
+    showToast(`分享失敗：${String(e)}`);
+    console.error(e);
+  }
 };
 
 const sendToChat = async () => {
@@ -99,7 +106,10 @@ const sendToChat = async () => {
   try {
     await liff.sendMessages([buildFlexCard() as any]);
     showToast('已傳送到聊天室！');
-  } catch (e) { console.error(e); }
+  } catch (e) {
+    showToast(`傳送失敗：${String(e)}`);
+    console.error(e);
+  }
 };
 </script>
 
