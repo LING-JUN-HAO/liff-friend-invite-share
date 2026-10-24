@@ -93,11 +93,8 @@ const emit = defineEmits<{
 
       <!-- 外縣市民眾特殊提示 -->
       <div v-if="personType === 'other'" class="other-notice">
-        <span class="other-notice__icon">✓</span>
-        <div>
-          <p>不是南投人也歡迎！</p>
-          <p>你的關心，也是改變南投的一股力量。</p>
-        </div>
+        <p>不是南投人也歡迎！</p>
+        <p>你的關心，也是改變南投的一股力量。</p>
       </div>
 
       <!-- 住在南投 / 駐外地（南投人限定） -->
@@ -152,10 +149,7 @@ const emit = defineEmits<{
             :checked="agreedToTerms"
             @change="emit('update:agreedToTerms', ($event.target as HTMLInputElement).checked)"
           />
-          <span>我已閱讀並同意
-            <button class="link-btn" @click.prevent="emit('toggle-privacy')">隱私說明</button>
-            ，{{ personType === 'nantou' ? '同意以頭貼、暱稱與區域製作政波卡。' : '同意以頭貼與暱稱製作政波卡。' }}
-          </span>
+          <span>我已閱讀並同意<button class="link-btn" @click.prevent="emit('toggle-privacy')">隱私說明</button>，{{ personType === 'nantou' ? '同意以頭貼、暱稱與區域製作政波卡。' : '同意以頭貼與暱稱製作政波卡。' }}</span>
         </label>
       </div>
 
@@ -275,9 +269,6 @@ const emit = defineEmits<{
 
 /* 外縣市提示 */
 .other-notice {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
   background: #e8f7ed;
   border-radius: 12px;
   padding: 14px;
