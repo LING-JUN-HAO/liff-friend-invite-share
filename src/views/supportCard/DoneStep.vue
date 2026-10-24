@@ -130,8 +130,7 @@ const buildFlexCard = () => {
 
 
 const buildInviteCard = () => {
-  const liffId = import.meta.env.VITE_LIFF_ID;
-  const liffUrl = liffId ? `https://liff.line.me/${liffId}#supportcard` : '';
+  const officialAccountUrl = 'https://line.me/R/ti/p/%40723znbzn';
 
   const nickname = props.nickname?.trim() || '政波成員';
 
@@ -247,7 +246,7 @@ const buildInviteCard = () => {
                 action: {
                   type: 'uri',
                   label: '我也加入政波',
-                  uri: liffUrl,
+                  uri: officialAccountUrl,
                 },
                 contents: [{
                   type: 'text',
