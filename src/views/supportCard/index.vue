@@ -36,6 +36,8 @@ onMounted(async () => {
   try {
     const profile = await liff.getProfile();
     avatarUrl.value = profile.pictureUrl ?? '';
+    // 預設帶入 LINE 名稱，截到暱稱上限 10 字；使用者已輸入就不覆蓋
+    if (!nickname.value) nickname.value = profile.displayName.slice(0, 10);
   } catch {}
 });
 

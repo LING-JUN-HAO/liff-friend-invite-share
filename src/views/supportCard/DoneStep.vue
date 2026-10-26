@@ -266,12 +266,19 @@ const buildInviteCard = () => {
 
 const cardImageUrl = ref('');
 
+// 依螢幕像素比輸出，避免高解析度手機上卡片被放大而模糊；上限 3 以免圖檔過大
+const captureOptions = {
+  useCORS: true,
+  scale: Math.min(Math.max(window.devicePixelRatio || 1, 2), 3),
+  backgroundColor: '#dde8f7',
+};
+
 onMounted(async () => {
   const el = document.getElementById('card-capture');
   if (!el) return;
   try {
     const { default: html2canvas } = await import('html2canvas');
-    const canvas = await html2canvas(el, { useCORS: true, scale: 2, backgroundColor: '#dde8f7' });
+    const canvas = await html2canvas(el, captureOptions);
     cardImageUrl.value = canvas.toDataURL('image/png');
   } catch (e) { console.error('卡片預覽產生失敗', e); }
 });
@@ -281,7 +288,7 @@ const saveImage = async () => {
   if (!el) return;
   try {
     const { default: html2canvas } = await import('html2canvas');
-    const canvas = await html2canvas(el, { useCORS: true, scale: 2, backgroundColor: '#dde8f7' });
+    const canvas = await html2canvas(el, captureOptions);
     canvas.toBlob(async (blob) => {
       if (!blob) return;
       await shareOrDownload(blob, '政波卡.png');
